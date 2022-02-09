@@ -2,9 +2,14 @@
 
 SDIR="$( cd "$( dirname "$0" )" && pwd )"
 
+if [ $# != "2" ]; then
+    echo
+    echo "   usage: annotateMaf_OncoKb.sh INPUT_MAF DATA_CLINCAL_FILE"
+    echo
+    exit
+fi
+
 ONCOKB_TOKEN=$(cat $SDIR/oncokb*token)
-echo $ONCOKB_TOKEN
-exit
 
 MAF=$1
 BASE=$(basename $MAF | perl -pe 's/\.[^.]*$//')
@@ -14,7 +19,7 @@ CLINICAL=$2
 
 . $SDIR/venv.oncokb/bin/activate
 
-python $SDIR/oncokb-annotator/MafAnnotator.py \
+python3 $SDIR/oncokb-annotator/MafAnnotator.py \
     -i $MAF \
     -o ${BASE}.oncokb.$EXT \
     -c $CLINICAL \
